@@ -6,18 +6,18 @@
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * @flow
+ * 
  */
 'use strict';
 
-const NavigationCard = require('./NavigationCard');
-const NavigationCardStack = require('./NavigationCardStack');
-const NavigationHeader = require('./NavigationHeader');
-const NavigationPropTypes = require('./NavigationPropTypes');
-const NavigationStateUtils = require('./NavigationStateUtils');
-const NavigationTransitioner = require('./NavigationTransitioner');
+var NavigationCard = require('./NavigationCard');
+var NavigationCardStack = require('./NavigationCardStack');
+var NavigationHeader = require('./NavigationHeader');
+var NavigationPropTypes = require('./NavigationPropTypes');
+var NavigationStateUtils = require('./NavigationStateUtils');
+var NavigationTransitioner = require('./NavigationTransitioner');
 
-const NavigationExperimental = {
+var NavigationExperimental = {
   // Core
   StateUtils: NavigationStateUtils,
 
@@ -29,7 +29,7 @@ const NavigationExperimental = {
   CardStack: NavigationCardStack,
   Header: NavigationHeader,
 
-  PropTypes: NavigationPropTypes,
+  PropTypes: NavigationPropTypes
 };
 
 module.exports = NavigationExperimental;

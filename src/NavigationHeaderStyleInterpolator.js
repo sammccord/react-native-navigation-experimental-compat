@@ -27,13 +27,11 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THE SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * @flow
+ * 
  */
-'use strict'
+'use strict';
 
-const I18nManager = require('react-native-web').I18nManager
-
-import type { NavigationSceneRendererProps } from './NavigationTypeDefinition'
+var I18nManager = require('react-native-web').I18nManager;
 
 /**
  * Utility that builds the style for the navigation header.
@@ -46,51 +44,53 @@ import type { NavigationSceneRendererProps } from './NavigationTypeDefinition'
  * +-------------+-------------+-------------+
  */
 
-function forLeft(props: NavigationSceneRendererProps): Object {
-  const { position, scene } = props
-  const { index } = scene
+function forLeft(props) {
+  var position = props.position,
+      scene = props.scene;
+  var index = scene.index;
+
   return {
     opacity: position.interpolate({
       inputRange: [index - 1, index, index + 1],
-      outputRange: ([0, 1, 0]: Array<number>)
+      outputRange: [0, 1, 0]
     })
-  }
+  };
 }
 
-function forCenter(props: NavigationSceneRendererProps): Object {
-  const { position, scene } = props
-  const { index } = scene
+function forCenter(props) {
+  var position = props.position,
+      scene = props.scene;
+  var index = scene.index;
+
   return {
     opacity: position.interpolate({
       inputRange: [index - 1, index, index + 1],
-      outputRange: ([0, 1, 0]: Array<number>)
+      outputRange: [0, 1, 0]
     }),
-    transform: [
-      {
-        translateX: position.interpolate({
-          inputRange: [index - 1, index + 1],
-          outputRange: I18nManager.isRTL
-            ? ([-200, 200]: Array<number>)
-            : ([200, -200]: Array<number>)
-        })
-      }
-    ]
-  }
+    transform: [{
+      translateX: position.interpolate({
+        inputRange: [index - 1, index + 1],
+        outputRange: I18nManager.isRTL ? [-200, 200] : [200, -200]
+      })
+    }]
+  };
 }
 
-function forRight(props: NavigationSceneRendererProps): Object {
-  const { position, scene } = props
-  const { index } = scene
+function forRight(props) {
+  var position = props.position,
+      scene = props.scene;
+  var index = scene.index;
+
   return {
     opacity: position.interpolate({
       inputRange: [index - 1, index, index + 1],
-      outputRange: ([0, 1, 0]: Array<number>)
+      outputRange: [0, 1, 0]
     })
-  }
+  };
 }
 
 module.exports = {
-  forCenter,
-  forLeft,
-  forRight
-}
+  forCenter: forCenter,
+  forLeft: forLeft,
+  forRight: forRight
+};

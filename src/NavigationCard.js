@@ -27,86 +27,91 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THE SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * @flow
+ * 
  */
-'use strict'
+'use strict';
 
-const Animated = require('react-native-web').Animated
-const NavigationCardStackPanResponder = require('./NavigationCardStackPanResponder')
-const NavigationCardStackStyleInterpolator = require('./NavigationCardStackStyleInterpolator')
-const NavigationPagerPanResponder = require('./NavigationPagerPanResponder')
-const NavigationPagerStyleInterpolator = require('./NavigationPagerStyleInterpolator')
-const NavigationPointerEventsContainer = require('./NavigationPointerEventsContainer')
-const NavigationPropTypes = require('./NavigationPropTypes')
-const React = require('react')
-const StyleSheet = require('react-native-web').StyleSheet
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-import type {
-  NavigationPanPanHandlers,
-  NavigationSceneRenderer,
-  NavigationSceneRendererProps
-} from './NavigationTypeDefinition'
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-type Props = NavigationSceneRendererProps & {
-  onComponentRef: (ref: any) => void,
-  onNavigateBack: ?Function,
-  panHandlers: ?NavigationPanPanHandlers,
-  pointerEvents: string,
-  renderScene: NavigationSceneRenderer,
-  style: any
-}
+var _propTypes = require('prop-types');
 
-import PropTypes from 'prop-types'
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Animated = require('react-native-web').Animated;
+var NavigationCardStackPanResponder = require('./NavigationCardStackPanResponder');
+var NavigationCardStackStyleInterpolator = require('./NavigationCardStackStyleInterpolator');
+var NavigationPagerPanResponder = require('./NavigationPagerPanResponder');
+var NavigationPagerStyleInterpolator = require('./NavigationPagerStyleInterpolator');
+var NavigationPointerEventsContainer = require('./NavigationPointerEventsContainer');
+var NavigationPropTypes = require('./NavigationPropTypes');
+var React = require('react');
+var StyleSheet = require('react-native-web').StyleSheet;
 
 /**
  * Component that renders the scene as card for the <NavigationCardStack />.
  */
-class NavigationCard extends React.Component<any, Props, any> {
-  props: Props
+var NavigationCard = function (_React$Component) {
+  _inherits(NavigationCard, _React$Component);
 
-  static propTypes = {
-    ...NavigationPropTypes.SceneRendererProps,
-    onComponentRef: PropTypes.func.isRequired,
-    onNavigateBack: PropTypes.func,
-    panHandlers: NavigationPropTypes.panHandlers,
-    pointerEvents: PropTypes.string.isRequired,
-    renderScene: PropTypes.func.isRequired,
-    style: PropTypes.any
+  function NavigationCard() {
+    _classCallCheck(this, NavigationCard);
+
+    return _possibleConstructorReturn(this, (NavigationCard.__proto__ || Object.getPrototypeOf(NavigationCard)).apply(this, arguments));
   }
 
-  render(): React.Element<any> {
-    const {
-      panHandlers,
-      pointerEvents,
-      renderScene,
-      style,
-      ...props /* NavigationSceneRendererProps */
-    } = this.props
+  _createClass(NavigationCard, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          panHandlers = _props.panHandlers,
+          pointerEvents = _props.pointerEvents,
+          renderScene = _props.renderScene,
+          style = _props.style,
+          props = _objectWithoutProperties(_props, ['panHandlers', 'pointerEvents', 'renderScene', 'style']);
 
-    const viewStyle =
-      style === undefined ? NavigationCardStackStyleInterpolator.forHorizontal(props) : style
+      var viewStyle = style === undefined ? NavigationCardStackStyleInterpolator.forHorizontal(props) : style;
 
-    const viewPanHandlers =
-      panHandlers === undefined
-        ? NavigationCardStackPanResponder.forHorizontal({
-            ...props,
-            onNavigateBack: this.props.onNavigateBack
-          })
-        : panHandlers
+      var viewPanHandlers = panHandlers === undefined ? NavigationCardStackPanResponder.forHorizontal(_extends({}, props, {
+        onNavigateBack: this.props.onNavigateBack
+      })) : panHandlers;
 
-    return (
-      <Animated.View
-        {...viewPanHandlers}
-        pointerEvents={pointerEvents}
-        ref={this.props.onComponentRef}
-        style={[styles.main, viewStyle]}>
-        {renderScene(props)}
-      </Animated.View>
-    )
-  }
-}
+      return React.createElement(
+        Animated.View,
+        _extends({}, viewPanHandlers, {
+          pointerEvents: pointerEvents,
+          ref: this.props.onComponentRef,
+          style: [styles.main, viewStyle] }),
+        renderScene(props)
+      );
+    }
+  }]);
 
-const styles = StyleSheet.create({
+  return NavigationCard;
+}(React.Component);
+
+NavigationCard.propTypes = _extends({}, NavigationPropTypes.SceneRendererProps, {
+  onComponentRef: _propTypes2.default.func.isRequired,
+  onNavigateBack: _propTypes2.default.func,
+  panHandlers: NavigationPropTypes.panHandlers,
+  pointerEvents: _propTypes2.default.string.isRequired,
+  renderScene: _propTypes2.default.func.isRequired,
+  style: _propTypes2.default.any
+});
+
+
+var styles = StyleSheet.create({
   main: {
     backgroundColor: '#E9E9EF',
     bottom: 0,
@@ -119,13 +124,13 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     top: 0
   }
-})
+});
 
-NavigationCard = NavigationPointerEventsContainer.create(NavigationCard)
+NavigationCard = NavigationPointerEventsContainer.create(NavigationCard);
 
-NavigationCard.CardStackPanResponder = NavigationCardStackPanResponder
-NavigationCard.CardStackStyleInterpolator = NavigationCardStackStyleInterpolator
-NavigationCard.PagerPanResponder = NavigationPagerPanResponder
-NavigationCard.PagerStyleInterpolator = NavigationPagerStyleInterpolator
+NavigationCard.CardStackPanResponder = NavigationCardStackPanResponder;
+NavigationCard.CardStackStyleInterpolator = NavigationCardStackStyleInterpolator;
+NavigationCard.PagerPanResponder = NavigationPagerPanResponder;
+NavigationCard.PagerStyleInterpolator = NavigationPagerStyleInterpolator;
 
-module.exports = NavigationCard
+module.exports = NavigationCard;

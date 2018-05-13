@@ -27,13 +27,11 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THE SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * @flow
+ * 
  */
-'use strict'
+'use strict';
 
-const I18nManager = require('react-native-web').I18nManager
-
-import type { NavigationSceneRendererProps } from './NavigationTypeDefinition'
+var I18nManager = require('react-native-web').I18nManager;
 
 /**
  * Utility that builds the style for the card in the cards stack.
@@ -53,98 +51,104 @@ import type { NavigationSceneRendererProps } from './NavigationTypeDefinition'
 /**
  * Render the initial style when the initial layout isn't measured yet.
  */
-function forInitial(props: NavigationSceneRendererProps): Object {
-  const { navigationState, scene } = props
+function forInitial(props) {
+  var navigationState = props.navigationState,
+      scene = props.scene;
 
-  const focused = navigationState.index === scene.index
-  const opacity = focused ? 1 : 0
+
+  var focused = navigationState.index === scene.index;
+  var opacity = focused ? 1 : 0;
   // If not focused, move the scene to the far away.
-  const translate = focused ? 0 : 1000000
+  var translate = focused ? 0 : 1000000;
   return {
-    opacity,
+    opacity: opacity,
     transform: [{ translateX: translate }, { translateY: translate }]
-  }
+  };
 }
 
-function forHorizontal(props: NavigationSceneRendererProps): Object {
-  const { layout, position, scene } = props
+function forHorizontal(props) {
+  var layout = props.layout,
+      position = props.position,
+      scene = props.scene;
+
 
   if (!layout.isMeasured) {
-    return forInitial(props)
+    return forInitial(props);
   }
 
-  const index = scene.index
-  const inputRange = [index - 1, index, index + 0.99, index + 1]
-  const width = layout.initWidth
-  const outputRange = I18nManager.isRTL
-    ? ([-width, 0, 10, 10]: Array<number>)
-    : ([width, 0, -10, -10]: Array<number>)
+  var index = scene.index;
+  var inputRange = [index - 1, index, index + 0.99, index + 1];
+  var width = layout.initWidth;
+  var outputRange = I18nManager.isRTL ? [-width, 0, 10, 10] : [width, 0, -10, -10];
 
-  const opacity = position.interpolate({
-    inputRange,
-    outputRange: ([1, 1, 0.3, 0]: Array<number>)
-  })
+  var opacity = position.interpolate({
+    inputRange: inputRange,
+    outputRange: [1, 1, 0.3, 0]
+  });
 
-  const scale = position.interpolate({
-    inputRange,
-    outputRange: ([1, 1, 0.95, 0.95]: Array<number>)
-  })
+  var scale = position.interpolate({
+    inputRange: inputRange,
+    outputRange: [1, 1, 0.95, 0.95]
+  });
 
-  const translateY = 0
-  const translateX = position.interpolate({
-    inputRange,
-    outputRange
-  })
+  var translateY = 0;
+  var translateX = position.interpolate({
+    inputRange: inputRange,
+    outputRange: outputRange
+  });
 
   return {
-    opacity,
-    transform: [{ scale }, { translateX }, { translateY }]
-  }
+    opacity: opacity,
+    transform: [{ scale: scale }, { translateX: translateX }, { translateY: translateY }]
+  };
 }
 
-function forVertical(props: NavigationSceneRendererProps): Object {
-  const { layout, position, scene } = props
+function forVertical(props) {
+  var layout = props.layout,
+      position = props.position,
+      scene = props.scene;
+
 
   if (!layout.isMeasured) {
-    return forInitial(props)
+    return forInitial(props);
   }
 
-  const index = scene.index
-  const inputRange = [index - 1, index, index + 0.99, index + 1]
-  const height = layout.initHeight
+  var index = scene.index;
+  var inputRange = [index - 1, index, index + 0.99, index + 1];
+  var height = layout.initHeight;
 
-  const opacity = position.interpolate({
-    inputRange,
-    outputRange: ([1, 1, 0.3, 0]: Array<number>)
-  })
+  var opacity = position.interpolate({
+    inputRange: inputRange,
+    outputRange: [1, 1, 0.3, 0]
+  });
 
-  const scale = position.interpolate({
-    inputRange,
-    outputRange: ([1, 1, 0.95, 0.95]: Array<number>)
-  })
+  var scale = position.interpolate({
+    inputRange: inputRange,
+    outputRange: [1, 1, 0.95, 0.95]
+  });
 
-  const translateX = 0
-  const translateY = position.interpolate({
-    inputRange,
-    outputRange: ([height, 0, -10, -10]: Array<number>)
-  })
+  var translateX = 0;
+  var translateY = position.interpolate({
+    inputRange: inputRange,
+    outputRange: [height, 0, -10, -10]
+  });
 
   return {
-    opacity,
-    transform: [{ scale }, { translateX }, { translateY }]
-  }
+    opacity: opacity,
+    transform: [{ scale: scale }, { translateX: translateX }, { translateY: translateY }]
+  };
 }
 
-function canUseNativeDriver(isVertical: boolean): boolean {
+function canUseNativeDriver(isVertical) {
   // The native driver can be enabled for this interpolator because the scale,
   // translateX, and translateY transforms are supported with the native
   // animation driver.
 
-  return true
+  return true;
 }
 
 module.exports = {
-  forHorizontal,
-  forVertical,
-  canUseNativeDriver
-}
+  forHorizontal: forHorizontal,
+  forVertical: forVertical,
+  canUseNativeDriver: canUseNativeDriver
+};

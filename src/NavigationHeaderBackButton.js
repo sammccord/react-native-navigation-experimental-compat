@@ -18,33 +18,38 @@
  * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- * @flow
+ * 
  */
-'use strict'
+'use strict';
 
-const React = require('react')
-const ReactNative = require('react-native-web')
-import PropTypes from 'prop-types'
+var _propTypes = require('prop-types');
 
-const { I18nManager, Image, Platform, StyleSheet, TouchableOpacity } = ReactNative
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
-type Props = {
-  imageStyle?: any,
-  onPress: Function,
-  style?: any
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const NavigationHeaderBackButton = (props: Props) => (
-  <TouchableOpacity style={[styles.buttonContainer, props.style]} onPress={props.onPress}>
-    <Image style={[styles.button, props.imageStyle]} source={require('./assets/back-icon.png')} />
-  </TouchableOpacity>
-)
+var React = require('react');
+var ReactNative = require('react-native-web');
+var I18nManager = ReactNative.I18nManager,
+    Image = ReactNative.Image,
+    Platform = ReactNative.Platform,
+    StyleSheet = ReactNative.StyleSheet,
+    TouchableOpacity = ReactNative.TouchableOpacity;
+
+
+var NavigationHeaderBackButton = function NavigationHeaderBackButton(props) {
+  return React.createElement(
+    TouchableOpacity,
+    { style: [styles.buttonContainer, props.style], onPress: props.onPress },
+    React.createElement(Image, { style: [styles.button, props.imageStyle], source: require('./assets/back-icon.png') })
+  );
+};
 
 NavigationHeaderBackButton.propTypes = {
-  onPress: PropTypes.func.isRequired
-}
+  onPress: _propTypes2.default.func.isRequired
+};
 
-const styles = StyleSheet.create({
+var styles = StyleSheet.create({
   buttonContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -58,6 +63,6 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }]
   }
-})
+});
 
-module.exports = NavigationHeaderBackButton
+module.exports = NavigationHeaderBackButton;

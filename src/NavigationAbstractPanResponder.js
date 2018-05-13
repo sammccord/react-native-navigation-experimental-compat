@@ -6,47 +6,43 @@
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * @flow
+ * 
  */
-'use strict'
+'use strict';
 
-const PanResponder = require('react-native-web').PanResponder
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-const invariant = require('fbjs/lib/invariant')
+var PanResponder = require('react-native-web').PanResponder;
 
-import type { NavigationPanPanHandlers } from './NavigationTypeDefinition'
+var invariant = require('fbjs/lib/invariant');
 
-const EmptyPanHandlers = {
+var EmptyPanHandlers = {
   onMoveShouldSetPanResponder: null,
   onPanResponderGrant: null,
   onPanResponderMove: null,
   onPanResponderRelease: null,
   onPanResponderTerminate: null
-}
 
-/**
- * Abstract class that defines the common interface of PanResponder that handles
- * the gesture actions.
- */
-class NavigationAbstractPanResponder {
-  panHandlers: NavigationPanPanHandlers
+  /**
+   * Abstract class that defines the common interface of PanResponder that handles
+   * the gesture actions.
+   */
+};
+var NavigationAbstractPanResponder = function NavigationAbstractPanResponder() {
+  var _this = this;
 
-  constructor() {
-    const config = {}
-    Object.keys(EmptyPanHandlers).forEach(name => {
-      const fn: any = (this: any)[name]
+  _classCallCheck(this, NavigationAbstractPanResponder);
 
-      invariant(
-        typeof fn === 'function',
-        'subclass of `NavigationAbstractPanResponder` must implement method %s',
-        name
-      )
+  var config = {};
+  Object.keys(EmptyPanHandlers).forEach(function (name) {
+    var fn = _this[name];
 
-      config[name] = fn.bind(this)
-    }, this)
+    invariant(typeof fn === 'function', 'subclass of `NavigationAbstractPanResponder` must implement method %s', name);
 
-    this.panHandlers = PanResponder.create(config).panHandlers
-  }
-}
+    config[name] = fn.bind(_this);
+  }, this);
 
-module.exports = NavigationAbstractPanResponder
+  this.panHandlers = PanResponder.create(config).panHandlers;
+};
+
+module.exports = NavigationAbstractPanResponder;

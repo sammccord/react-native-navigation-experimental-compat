@@ -27,30 +27,43 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THE SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * @flow
+ * 
  */
-'use strict'
+'use strict';
 
-const React = require('react')
-const ReactNative = require('react-native-web')
-import PropTypes from 'prop-types'
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-const { Platform, StyleSheet, View, Text } = ReactNative
+var _propTypes = require('prop-types');
 
-type Props = {
-  children?: React.Element<any>,
-  style?: any,
-  textStyle?: any,
-  viewProps?: any
-}
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
-const NavigationHeaderTitle = ({ children, style, textStyle, viewProps }: Props) => (
-  <View style={[styles.title, style]} {...viewProps}>
-    <Text style={[styles.titleText, textStyle]}>{children}</Text>
-  </View>
-)
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const styles = StyleSheet.create({
+var React = require('react');
+var ReactNative = require('react-native-web');
+var Platform = ReactNative.Platform,
+    StyleSheet = ReactNative.StyleSheet,
+    View = ReactNative.View,
+    Text = ReactNative.Text;
+
+
+var NavigationHeaderTitle = function NavigationHeaderTitle(_ref) {
+  var children = _ref.children,
+      style = _ref.style,
+      textStyle = _ref.textStyle,
+      viewProps = _ref.viewProps;
+  return React.createElement(
+    View,
+    _extends({ style: [styles.title, style] }, viewProps),
+    React.createElement(
+      Text,
+      { style: [styles.titleText, textStyle] },
+      children
+    )
+  );
+};
+
+var styles = StyleSheet.create({
   title: {
     flex: 1,
     flexDirection: 'row',
@@ -65,10 +78,10 @@ const styles = StyleSheet.create({
     color: 'rgba(0, 0, 0, .9)',
     textAlign: Platform.OS === 'ios' ? 'center' : 'left'
   }
-})
+});
 
 NavigationHeaderTitle.propTypes = {
-  children: PropTypes.node.isRequired
-}
+  children: _propTypes2.default.node.isRequired
+};
 
-module.exports = NavigationHeaderTitle
+module.exports = NavigationHeaderTitle;

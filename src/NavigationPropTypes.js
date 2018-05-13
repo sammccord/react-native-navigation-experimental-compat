@@ -6,11 +6,15 @@
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * @flow
+ * 
  */
-'use strict'
+'use strict';
 
-import type { NavigationSceneRendererProps } from './NavigationTypeDefinition'
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * React component PropTypes Definitions. Consider using this as a supplementary
@@ -19,82 +23,78 @@ import type { NavigationSceneRendererProps } from './NavigationTypeDefinition'
  * type check errors at build time.
  */
 
-const Animated = require('react-native-web').Animated
-const React = require('react')
-
-import PropTypes from 'prop-types'
+var Animated = require('react-native-web').Animated;
+var React = require('react');
 
 /* NavigationAction */
-const action = PropTypes.shape({
-  type: PropTypes.string.isRequired
-})
+var action = _propTypes2.default.shape({
+  type: _propTypes2.default.string.isRequired
+});
 
 /* NavigationAnimatedValue  */
-const animatedValue = PropTypes.instanceOf(Animated.Value)
+var animatedValue = _propTypes2.default.instanceOf(Animated.Value);
 
 /* NavigationRoute  */
-const navigationRoute = PropTypes.shape({
-  key: PropTypes.string.isRequired
-})
+var navigationRoute = _propTypes2.default.shape({
+  key: _propTypes2.default.string.isRequired
+});
 
 /* NavigationState  */
-const navigationState = PropTypes.shape({
-  index: PropTypes.number.isRequired,
-  routes: PropTypes.arrayOf(navigationRoute)
-})
+var navigationState = _propTypes2.default.shape({
+  index: _propTypes2.default.number.isRequired,
+  routes: _propTypes2.default.arrayOf(navigationRoute)
+});
 
 /* NavigationLayout */
-const layout = PropTypes.shape({
+var layout = _propTypes2.default.shape({
   height: animatedValue,
-  initHeight: PropTypes.number.isRequired,
-  initWidth: PropTypes.number.isRequired,
-  isMeasured: PropTypes.bool.isRequired,
+  initHeight: _propTypes2.default.number.isRequired,
+  initWidth: _propTypes2.default.number.isRequired,
+  isMeasured: _propTypes2.default.bool.isRequired,
   width: animatedValue
-})
+});
 
 /* NavigationScene */
-const scene = PropTypes.shape({
-  index: PropTypes.number.isRequired,
-  isActive: PropTypes.bool.isRequired,
-  isStale: PropTypes.bool.isRequired,
-  key: PropTypes.string.isRequired,
+var scene = _propTypes2.default.shape({
+  index: _propTypes2.default.number.isRequired,
+  isActive: _propTypes2.default.bool.isRequired,
+  isStale: _propTypes2.default.bool.isRequired,
+  key: _propTypes2.default.string.isRequired,
   route: navigationRoute.isRequired
-})
+});
 
 /* NavigationSceneRendererProps */
-const SceneRendererProps = {
+var SceneRendererProps = {
   layout: layout.isRequired,
   navigationState: navigationState.isRequired,
   position: animatedValue.isRequired,
   progress: animatedValue.isRequired,
   scene: scene.isRequired,
-  scenes: PropTypes.arrayOf(scene).isRequired
-}
+  scenes: _propTypes2.default.arrayOf(scene).isRequired
+};
 
-const SceneRenderer = PropTypes.shape(SceneRendererProps)
+var SceneRenderer = _propTypes2.default.shape(SceneRendererProps);
 
 /* NavigationPanPanHandlers */
-const panHandlers = PropTypes.shape({
-  onMoveShouldSetResponder: PropTypes.func.isRequired,
-  onMoveShouldSetResponderCapture: PropTypes.func.isRequired,
-  onResponderEnd: PropTypes.func.isRequired,
-  onResponderGrant: PropTypes.func.isRequired,
-  onResponderMove: PropTypes.func.isRequired,
-  onResponderReject: PropTypes.func.isRequired,
-  onResponderRelease: PropTypes.func.isRequired,
-  onResponderStart: PropTypes.func.isRequired,
-  onResponderTerminate: PropTypes.func.isRequired,
-  onResponderTerminationRequest: PropTypes.func.isRequired,
-  onStartShouldSetResponder: PropTypes.func.isRequired,
-  onStartShouldSetResponderCapture: PropTypes.func.isRequired
-})
+var panHandlers = _propTypes2.default.shape({
+  onMoveShouldSetResponder: _propTypes2.default.func.isRequired,
+  onMoveShouldSetResponderCapture: _propTypes2.default.func.isRequired,
+  onResponderEnd: _propTypes2.default.func.isRequired,
+  onResponderGrant: _propTypes2.default.func.isRequired,
+  onResponderMove: _propTypes2.default.func.isRequired,
+  onResponderReject: _propTypes2.default.func.isRequired,
+  onResponderRelease: _propTypes2.default.func.isRequired,
+  onResponderStart: _propTypes2.default.func.isRequired,
+  onResponderTerminate: _propTypes2.default.func.isRequired,
+  onResponderTerminationRequest: _propTypes2.default.func.isRequired,
+  onStartShouldSetResponder: _propTypes2.default.func.isRequired,
+  onStartShouldSetResponderCapture: _propTypes2.default.func.isRequired
+});
 
 /**
  * Helper function that extracts the props needed for scene renderer.
  */
-function extractSceneRendererProps(
-  props: NavigationSceneRendererProps
-): NavigationSceneRendererProps {
+function extractSceneRendererProps(props) {
   return {
     layout: props.layout,
     navigationState: props.navigationState,
@@ -102,20 +102,20 @@ function extractSceneRendererProps(
     progress: props.progress,
     scene: props.scene,
     scenes: props.scenes
-  }
+  };
 }
 
 module.exports = {
   // helpers
-  extractSceneRendererProps,
+  extractSceneRendererProps: extractSceneRendererProps,
 
   // Bundled propTypes.
-  SceneRendererProps,
+  SceneRendererProps: SceneRendererProps,
 
   // propTypes
-  SceneRenderer,
-  action,
-  navigationState,
-  navigationRoute,
-  panHandlers
-}
+  SceneRenderer: SceneRenderer,
+  action: action,
+  navigationState: navigationState,
+  navigationRoute: navigationRoute,
+  panHandlers: panHandlers
+};
