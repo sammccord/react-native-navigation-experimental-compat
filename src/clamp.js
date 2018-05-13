@@ -16,6 +16,7 @@
  * @param {number} max
  * @return {number}
  */
+
 function clamp(min, value, max) {
   if (value < min) {
     return min;

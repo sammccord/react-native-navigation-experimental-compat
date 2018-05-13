@@ -27,13 +27,11 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THE SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * @flow
+ * 
  */
-'use strict'
+'use strict';
 
-const I18nManager = require('react-native-web').I18nManager
-
-import type { NavigationSceneRendererProps } from './NavigationTypeDefinition'
+var I18nManager = require('react-native-web').I18nManager;
 
 /**
  * Utility that builds the style for the card in the cards list.
@@ -53,47 +51,50 @@ import type { NavigationSceneRendererProps } from './NavigationTypeDefinition'
 /**
  * Render the initial style when the initial layout isn't measured yet.
  */
-function forInitial(props: NavigationSceneRendererProps): Object {
-  const { navigationState, scene } = props
+function forInitial(props) {
+  var navigationState = props.navigationState,
+      scene = props.scene;
 
-  const focused = navigationState.index === scene.index
-  const opacity = focused ? 1 : 0
+
+  var focused = navigationState.index === scene.index;
+  var opacity = focused ? 1 : 0;
   // If not focused, move the scene to the far away.
-  const dir = scene.index > navigationState.index ? 1 : -1
-  const translate = focused ? 0 : 1000000 * dir
+  var dir = scene.index > navigationState.index ? 1 : -1;
+  var translate = focused ? 0 : 1000000 * dir;
   return {
-    opacity,
+    opacity: opacity,
     transform: [{ translateX: translate }, { translateY: translate }]
-  }
+  };
 }
 
-function forHorizontal(props: NavigationSceneRendererProps): Object {
-  const { layout, position, scene } = props
+function forHorizontal(props) {
+  var layout = props.layout,
+      position = props.position,
+      scene = props.scene;
+
 
   if (!layout.isMeasured) {
-    return forInitial(props)
+    return forInitial(props);
   }
 
-  const index = scene.index
-  const inputRange = [index - 1, index, index + 1]
-  const width = layout.initWidth
-  const outputRange = I18nManager.isRTL
-    ? ([-width, 0, width]: Array<number>)
-    : ([width, 0, -width]: Array<number>)
+  var index = scene.index;
+  var inputRange = [index - 1, index, index + 1];
+  var width = layout.initWidth;
+  var outputRange = I18nManager.isRTL ? [-width, 0, width] : [width, 0, -width];
 
-  const translateX = position.interpolate({
-    inputRange,
-    outputRange
-  })
+  var translateX = position.interpolate({
+    inputRange: inputRange,
+    outputRange: outputRange
+  });
 
   return {
     opacity: 1,
     shadowColor: 'transparent',
     shadowRadius: 0,
-    transform: [{ scale: 1 }, { translateX }, { translateY: 0 }]
-  }
+    transform: [{ scale: 1 }, { translateX: translateX }, { translateY: 0 }]
+  };
 }
 
 module.exports = {
-  forHorizontal
-}
+  forHorizontal: forHorizontal
+};
