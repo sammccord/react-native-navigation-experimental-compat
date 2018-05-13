@@ -4,26 +4,33 @@
   "description": "NavigationExperimental as a package.",
   "main": "src/NavigationExperimental.js",
   "scripts": {
+    "build": "babel src --out-dir src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/goshakkk/react-native-navigation-experimental-compat.git"
   },
-  "keywords": [
-    "React",
-    "React",
-    "Native",
-    "navigator",
-    "NavigationExperimental"
-  ],
+  "keywords": ["React", "React", "Native", "navigator", "NavigationExperimental"],
   "author": "Facebook, Inc",
   "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/goshakkk/react-native-navigation-experimental-compat/issues"
   },
   "homepage": "https://github.com/goshakkk/react-native-navigation-experimental-compat#readme",
+  "babel": {
+    "presets": ["es2015", "stage-0", "react"],
+    "plugins": ["syntax-flow"]
+  },
   "dependencies": {
-    "fbjs": "~0.8.9"
+    "babel": "^6.3.26",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-syntax-flow": "^6.18.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-react-native": "^1.9.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "fbjs": "~0.8.9",
+    "react-native-web": "^0.6.1"
   }
 }

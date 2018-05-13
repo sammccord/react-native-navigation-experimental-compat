@@ -8,28 +8,26 @@
  *
  * @flow
  */
-'use strict';
+'use strict'
 
-const Animated = require('react-native').Animated;
-const NavigationAbstractPanResponder = require('./NavigationAbstractPanResponder');
-const NavigationCardStackPanResponder = require('./NavigationCardStackPanResponder');
-const I18nManager = require('react-native').I18nManager;
+const Animated = require('react-native-web').Animated
+const NavigationAbstractPanResponder = require('./NavigationAbstractPanResponder')
+const NavigationCardStackPanResponder = require('./NavigationCardStackPanResponder')
+const I18nManager = require('react-native-web').I18nManager
 
-const clamp = require('./clamp');
+const clamp = require('./clamp')
 
 import type {
   NavigationPanPanHandlers,
-  NavigationSceneRendererProps,
-} from './NavigationTypeDefinition';
+  NavigationSceneRendererProps
+} from './NavigationTypeDefinition'
 
-import type {
-  NavigationGestureDirection,
-} from './NavigationCardStackPanResponder';
+import type { NavigationGestureDirection } from './NavigationCardStackPanResponder'
 
 type Props = NavigationSceneRendererProps & {
   onNavigateBack: ?Function,
-  onNavigateForward: ?Function,
-};
+  onNavigateForward: ?Function
+}
 
 /**
  * Primitive gesture directions.
@@ -38,19 +36,19 @@ const {
   ANIMATION_DURATION,
   POSITION_THRESHOLD,
   RESPOND_THRESHOLD,
-  Directions,
-} = NavigationCardStackPanResponder;
+  Directions
+} = NavigationCardStackPanResponder
 
 /**
  * The threshold (in pixels) to finish the gesture action.
  */
-const DISTANCE_THRESHOLD = 50;
+const DISTANCE_THRESHOLD = 50
 
 /**
  * The threshold to trigger the gesture action. This determines the rate of the
  * flick when the action will be triggered
  */
-const VELOCITY_THRESHOLD = 1.5;
+const VELOCITY_THRESHOLD = 1.5
 
 /**
  * Pan responder that handles gesture for a card in the cards list.
@@ -67,171 +65,132 @@ const VELOCITY_THRESHOLD = 1.5;
  * +-------------+-------------+-------------+
  */
 class NavigationPagerPanResponder extends NavigationAbstractPanResponder {
+  _isResponding: boolean
+  _isVertical: boolean
+  _props: Props
+  _startValue: number
 
-  _isResponding: boolean;
-  _isVertical: boolean;
-  _props: Props;
-  _startValue: number;
-
-  constructor(
-    direction: NavigationGestureDirection,
-    props: Props,
-  ) {
-    super();
-    this._isResponding = false;
-    this._isVertical = direction === Directions.VERTICAL;
-    this._props = props;
-    this._startValue = 0;
+  constructor(direction: NavigationGestureDirection, props: Props) {
+    super()
+    this._isResponding = false
+    this._isVertical = direction === Directions.VERTICAL
+    this._props = props
+    this._startValue = 0
   }
 
   onMoveShouldSetPanResponder(event: any, gesture: any): boolean {
-    const props = this._props;
+    const props = this._props
 
     if (props.navigationState.index !== props.scene.index) {
-      return false;
+      return false
     }
 
-    const layout = props.layout;
-    const isVertical = this._isVertical;
-    const axis = isVertical ? 'dy' : 'dx';
-    const index = props.navigationState.index;
-    const distance = isVertical ?
-      layout.height.__getValue() :
-      layout.width.__getValue();
+    const layout = props.layout
+    const isVertical = this._isVertical
+    const axis = isVertical ? 'dy' : 'dx'
+    const index = props.navigationState.index
+    const distance = isVertical ? layout.height.__getValue() : layout.width.__getValue()
 
-    return (
-      Math.abs(gesture[axis]) > RESPOND_THRESHOLD &&
-      distance > 0 &&
-      index >= 0
-    );
+    return Math.abs(gesture[axis]) > RESPOND_THRESHOLD && distance > 0 && index >= 0
   }
 
   onPanResponderGrant(): void {
-    this._isResponding = false;
+    this._isResponding = false
     this._props.position.stopAnimation((value: number) => {
-      this._isResponding = true;
-      this._startValue = value;
-    });
+      this._isResponding = true
+      this._startValue = value
+    })
   }
 
   onPanResponderMove(event: any, gesture: any): void {
     if (!this._isResponding) {
-      return;
+      return
     }
 
-    const {
-      layout,
-      navigationState,
-      position,
-      scenes,
-    } = this._props;
+    const { layout, navigationState, position, scenes } = this._props
 
-    const isVertical = this._isVertical;
-    const axis = isVertical ? 'dy' : 'dx';
-    const index = navigationState.index;
-    const distance = isVertical ?
-      layout.height.__getValue() :
-      layout.width.__getValue();
-    const currentValue = I18nManager.isRTL && axis === 'dx' ?
-      this._startValue + (gesture[axis] / distance) :
-      this._startValue - (gesture[axis] / distance);
+    const isVertical = this._isVertical
+    const axis = isVertical ? 'dy' : 'dx'
+    const index = navigationState.index
+    const distance = isVertical ? layout.height.__getValue() : layout.width.__getValue()
+    const currentValue =
+      I18nManager.isRTL && axis === 'dx'
+        ? this._startValue + gesture[axis] / distance
+        : this._startValue - gesture[axis] / distance
 
-    const prevIndex = Math.max(
-      0,
-      index - 1,
-    );
+    const prevIndex = Math.max(0, index - 1)
 
-    const nextIndex = Math.min(
-      index + 1,
-      scenes.length - 1,
-    );
+    const nextIndex = Math.min(index + 1, scenes.length - 1)
 
-    const value = clamp(
-      prevIndex,
-      currentValue,
-      nextIndex,
-    );
+    const value = clamp(prevIndex, currentValue, nextIndex)
 
-    position.setValue(value);
+    position.setValue(value)
   }
 
   onPanResponderRelease(event: any, gesture: any): void {
     if (!this._isResponding) {
-      return;
+      return
     }
 
-    this._isResponding = false;
+    this._isResponding = false
 
-    const {
-      navigationState,
-      onNavigateBack,
-      onNavigateForward,
-      position,
-    } = this._props;
+    const { navigationState, onNavigateBack, onNavigateForward, position } = this._props
 
-    const isVertical = this._isVertical;
-    const axis = isVertical ? 'dy' : 'dx';
-    const velocityAxis = isVertical ? 'vy' : 'vx';
-    const index = navigationState.index;
-    const distance = I18nManager.isRTL && axis === 'dx' ?
-      -gesture[axis] :
-      gesture[axis];
-    const moveSpeed = I18nManager.isRTL && velocityAxis === 'vx' ?
-      -gesture[velocityAxis] :
-      gesture[velocityAxis];
+    const isVertical = this._isVertical
+    const axis = isVertical ? 'dy' : 'dx'
+    const velocityAxis = isVertical ? 'vy' : 'vx'
+    const index = navigationState.index
+    const distance = I18nManager.isRTL && axis === 'dx' ? -gesture[axis] : gesture[axis]
+    const moveSpeed =
+      I18nManager.isRTL && velocityAxis === 'vx' ? -gesture[velocityAxis] : gesture[velocityAxis]
 
     position.stopAnimation((value: number) => {
-      this._reset();
+      this._reset()
       if (
-        distance > DISTANCE_THRESHOLD  ||
+        distance > DISTANCE_THRESHOLD ||
         value <= index - POSITION_THRESHOLD ||
         moveSpeed > VELOCITY_THRESHOLD
       ) {
-        onNavigateBack && onNavigateBack();
-        return;
+        onNavigateBack && onNavigateBack()
+        return
       }
 
       if (
         distance < -DISTANCE_THRESHOLD ||
-        value >= index  + POSITION_THRESHOLD ||
+        value >= index + POSITION_THRESHOLD ||
         moveSpeed < -VELOCITY_THRESHOLD
       ) {
-        onNavigateForward && onNavigateForward();
+        onNavigateForward && onNavigateForward()
       }
-    });
+    })
   }
 
   onPanResponderTerminate(): void {
-    this._isResponding = false;
-    this._reset();
+    this._isResponding = false
+    this._reset()
   }
 
   _reset(): void {
-    const props = this._props;
-    Animated.timing(
-      props.position,
-      {
-        toValue: props.navigationState.index,
-        duration: ANIMATION_DURATION,
-      }
-    ).start();
+    const props = this._props
+    Animated.timing(props.position, {
+      toValue: props.navigationState.index,
+      duration: ANIMATION_DURATION
+    }).start()
   }
 }
 
 function createPanHandlers(
   direction: NavigationGestureDirection,
-  props: Props,
+  props: Props
 ): NavigationPanPanHandlers {
-  const responder = new NavigationPagerPanResponder(direction, props);
-  return responder.panHandlers;
+  const responder = new NavigationPagerPanResponder(direction, props)
+  return responder.panHandlers
 }
 
-function forHorizontal(
-  props: Props,
-): NavigationPanPanHandlers {
-  return createPanHandlers(Directions.HORIZONTAL, props);
+function forHorizontal(props: Props): NavigationPanPanHandlers {
+  return createPanHandlers(Directions.HORIZONTAL, props)
 }
 
 module.exports = {
-  forHorizontal,
-};
+  forHorizontal
+}

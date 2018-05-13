@@ -8,48 +8,45 @@
  *
  * @flow
  */
-'use strict';
+'use strict'
 
-const PanResponder = require('react-native').PanResponder;
+const PanResponder = require('react-native-web').PanResponder
 
-const invariant = require('fbjs/lib/invariant');
+const invariant = require('fbjs/lib/invariant')
 
-import type  {
-  NavigationPanPanHandlers,
-} from './NavigationTypeDefinition';
+import type { NavigationPanPanHandlers } from './NavigationTypeDefinition'
 
 const EmptyPanHandlers = {
   onMoveShouldSetPanResponder: null,
   onPanResponderGrant: null,
   onPanResponderMove: null,
   onPanResponderRelease: null,
-  onPanResponderTerminate: null,
-};
+  onPanResponderTerminate: null
+}
 
 /**
  * Abstract class that defines the common interface of PanResponder that handles
  * the gesture actions.
  */
 class NavigationAbstractPanResponder {
-
-  panHandlers: NavigationPanPanHandlers;
+  panHandlers: NavigationPanPanHandlers
 
   constructor() {
-    const config = {};
+    const config = {}
     Object.keys(EmptyPanHandlers).forEach(name => {
-      const fn: any = (this: any)[name];
+      const fn: any = (this: any)[name]
 
       invariant(
         typeof fn === 'function',
         'subclass of `NavigationAbstractPanResponder` must implement method %s',
         name
-      );
+      )
 
-      config[name] = fn.bind(this);
-    }, this);
+      config[name] = fn.bind(this)
+    }, this)
 
-    this.panHandlers = PanResponder.create(config).panHandlers;
+    this.panHandlers = PanResponder.create(config).panHandlers
   }
 }
 
-module.exports = NavigationAbstractPanResponder;
+module.exports = NavigationAbstractPanResponder

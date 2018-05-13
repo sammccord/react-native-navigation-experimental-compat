@@ -29,31 +29,26 @@
  *
  * @flow
  */
-'use strict';
+'use strict'
 
-const React = require('react');
-const ReactNative = require('react-native');
-import PropTypes from 'prop-types';
+const React = require('react')
+const ReactNative = require('react-native-web')
+import PropTypes from 'prop-types'
 
-const {
-  Platform,
-  StyleSheet,
-  View,
-  Text,
-} = ReactNative;
+const { Platform, StyleSheet, View, Text } = ReactNative
 
 type Props = {
   children?: React.Element<any>,
   style?: any,
   textStyle?: any,
-  viewProps?: any,
+  viewProps?: any
 }
 
 const NavigationHeaderTitle = ({ children, style, textStyle, viewProps }: Props) => (
-  <View style={[ styles.title, style ]} {...viewProps}>
-    <Text style={[ styles.titleText, textStyle ]}>{children}</Text>
+  <View style={[styles.title, style]} {...viewProps}>
+    <Text style={[styles.titleText, textStyle]}>{children}</Text>
   </View>
-);
+)
 
 const styles = StyleSheet.create({
   title: {
@@ -70,10 +65,10 @@ const styles = StyleSheet.create({
     color: 'rgba(0, 0, 0, .9)',
     textAlign: Platform.OS === 'ios' ? 'center' : 'left'
   }
-});
+})
 
 NavigationHeaderTitle.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+  children: PropTypes.node.isRequired
+}
 
-module.exports = NavigationHeaderTitle;
+module.exports = NavigationHeaderTitle

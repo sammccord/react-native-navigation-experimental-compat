@@ -29,33 +29,31 @@
  *
  * @flow
  */
-'use strict';
+'use strict'
 
-const NativeAnimatedModule = require('react-native').NativeModules.NativeAnimatedModule;
-const NavigationCard = require('./NavigationCard');
-const NavigationCardStackPanResponder = require('./NavigationCardStackPanResponder');
-const NavigationCardStackStyleInterpolator = require('./NavigationCardStackStyleInterpolator');
-const NavigationPropTypes = require('./NavigationPropTypes');
-const NavigationTransitioner = require('./NavigationTransitioner');
-const React = require('react');
-const StyleSheet = require('react-native').StyleSheet;
-const View = require('react-native').View;
+const NativeAnimatedModule = require('react-native-web').NativeModules.NativeAnimatedModule
+const NavigationCard = require('./NavigationCard')
+const NavigationCardStackPanResponder = require('./NavigationCardStackPanResponder')
+const NavigationCardStackStyleInterpolator = require('./NavigationCardStackStyleInterpolator')
+const NavigationPropTypes = require('./NavigationPropTypes')
+const NavigationTransitioner = require('./NavigationTransitioner')
+const React = require('react')
+const StyleSheet = require('react-native-web').StyleSheet
+const View = require('react-native-web').View
 
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
-const {Directions} = NavigationCardStackPanResponder;
+const { Directions } = NavigationCardStackPanResponder
 
 import type {
   NavigationState,
   NavigationSceneRenderer,
   NavigationSceneRendererProps,
   NavigationTransitionProps,
-  NavigationStyleInterpolator,
-} from './NavigationTypeDefinition';
+  NavigationStyleInterpolator
+} from './NavigationTypeDefinition'
 
-import type {
-  NavigationGestureDirection,
-} from './NavigationCardStackPanResponder';
+import type { NavigationGestureDirection } from './NavigationCardStackPanResponder'
 
 type Props = {
   direction: NavigationGestureDirection,
@@ -68,13 +66,13 @@ type Props = {
   gestureResponseDistance?: ?number,
   enableGestures: ?boolean,
   cardStyleInterpolator?: ?NavigationStyleInterpolator,
-  scenesStyle?: any,
-};
+  scenesStyle?: any
+}
 
 type DefaultProps = {
   direction: NavigationGestureDirection,
-  enableGestures: boolean,
-};
+  enableGestures: boolean
+}
 
 /**
  * A controlled navigation view that renders a stack of cards.
@@ -127,8 +125,8 @@ type DefaultProps = {
  * ```
  */
 class NavigationCardStack extends React.Component<DefaultProps, Props, void> {
-  _render : NavigationSceneRenderer;
-  _renderScene : NavigationSceneRenderer;
+  _render: NavigationSceneRenderer
+  _renderScene: NavigationSceneRenderer
 
   static propTypes = {
     /**
@@ -197,21 +195,21 @@ class NavigationCardStack extends React.Component<DefaultProps, Props, void> {
     /**
      * Function that renders the a scene for a route.
      */
-    renderScene: PropTypes.func.isRequired,
-  };
+    renderScene: PropTypes.func.isRequired
+  }
 
   static defaultProps: DefaultProps = {
     direction: Directions.HORIZONTAL,
-    enableGestures: true,
-  };
+    enableGestures: true
+  }
 
   constructor(props: Props, context: any) {
-    super(props, context);
+    super(props, context)
   }
 
   componentWillMount(): void {
-    this._render = this._render.bind(this);
-    this._renderScene = this._renderScene.bind(this);
+    this._render = this._render.bind(this)
+    this._renderScene = this._renderScene.bind(this)
   }
 
   render(): React.Element<any> {
@@ -222,72 +220,67 @@ class NavigationCardStack extends React.Component<DefaultProps, Props, void> {
         render={this._render}
         style={this.props.style}
       />
-    );
+    )
   }
 
   _configureTransition = () => {
-    const isVertical = this.props.direction === 'vertical';
-    const animationConfig = {};
+    const isVertical = this.props.direction === 'vertical'
+    const animationConfig = {}
     if (
-      !!NativeAnimatedModule
-
+      !!NativeAnimatedModule &&
       // Gestures do not work with the current iteration of native animation
       // driving. When gestures are disabled, we can drive natively.
-      && !this.props.enableGestures
-
+      !this.props.enableGestures &&
       // Native animation support also depends on the transforms used:
-      && NavigationCardStackStyleInterpolator.canUseNativeDriver(isVertical)
+      NavigationCardStackStyleInterpolator.canUseNativeDriver(isVertical)
     ) {
-      animationConfig.useNativeDriver = true;
+      animationConfig.useNativeDriver = true
     }
-    return animationConfig;
+    return animationConfig
   }
 
   _render(props: NavigationTransitionProps): React.Element<any> {
-    const {
-      renderHeader,
-    } = this.props;
+    const { renderHeader } = this.props
 
-    const header = renderHeader ? <View>{renderHeader(props)}</View> : null;
+    const header = renderHeader ? <View>{renderHeader(props)}</View> : null
 
-    const scenes = props.scenes.map(
-     scene => this._renderScene({
-       ...props,
-       scene,
-     })
-    );
+    const scenes = props.scenes.map(scene =>
+      this._renderScene({
+        ...props,
+        scene
+      })
+    )
 
     return (
       <View style={styles.container}>
-        <View
-          style={[styles.scenes, this.props.scenesStyle]}>
-          {scenes}
-        </View>
+        <View style={[styles.scenes, this.props.scenesStyle]}>{scenes}</View>
         {header}
       </View>
-    );
+    )
   }
 
   _renderScene(props: NavigationSceneRendererProps): React.Element<any> {
-    const isVertical = this.props.direction === 'vertical';
+    const isVertical = this.props.direction === 'vertical'
 
-    const interpolator = this.props.cardStyleInterpolator || (isVertical ?
-      NavigationCardStackStyleInterpolator.forVertical :
-      NavigationCardStackStyleInterpolator.forHorizontal);
+    const interpolator =
+      this.props.cardStyleInterpolator ||
+      (isVertical
+        ? NavigationCardStackStyleInterpolator.forVertical
+        : NavigationCardStackStyleInterpolator.forHorizontal)
 
-    const style = interpolator(props);
+    const style = interpolator(props)
 
-    let panHandlers = null;
+    let panHandlers = null
 
     if (this.props.enableGestures) {
       const panHandlersProps = {
         ...props,
         onNavigateBack: this.props.onNavigateBack,
-        gestureResponseDistance: this.props.gestureResponseDistance,
-      };
-      panHandlers = isVertical ?
-        NavigationCardStackPanResponder.forVertical(panHandlersProps) :
-        NavigationCardStackPanResponder.forHorizontal(panHandlersProps);
+        gestureResponseDistance: this.props.gestureResponseDistance
+      }
+      panHandlers = isVertical
+        ? NavigationCardStackPanResponder.forVertical(panHandlersProps)
+        : NavigationCardStackPanResponder.forHorizontal(panHandlersProps)
     }
 
     return (
@@ -298,7 +291,7 @@ class NavigationCardStack extends React.Component<DefaultProps, Props, void> {
         renderScene={this.props.renderScene}
         style={[style, this.props.cardStyle]}
       />
-    );
+    )
   }
 }
 
@@ -309,11 +302,11 @@ const styles = StyleSheet.create({
     // covered by the shadows of the scenes.
     // That said, we'd have use `flexDirection: 'column-reverse'` to move
     // Header above the scenes.
-    flexDirection: 'column-reverse',
+    flexDirection: 'column-reverse'
   },
   scenes: {
-    flex: 1,
-  },
-});
+    flex: 1
+  }
+})
 
-module.exports = NavigationCardStack;
+module.exports = NavigationCardStack

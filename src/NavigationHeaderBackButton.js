@@ -19,51 +19,45 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  * @flow
-*/
-'use strict';
+ */
+'use strict'
 
-const React = require('react');
-const ReactNative = require('react-native');
-import PropTypes from 'prop-types';
+const React = require('react')
+const ReactNative = require('react-native-web')
+import PropTypes from 'prop-types'
 
-const {
-  I18nManager,
-  Image,
-  Platform,
-  StyleSheet,
-  TouchableOpacity,
-} = ReactNative;
+const { I18nManager, Image, Platform, StyleSheet, TouchableOpacity } = ReactNative
 
 type Props = {
   imageStyle?: any,
   onPress: Function,
-  style?: any,
-};
+  style?: any
+}
 
 const NavigationHeaderBackButton = (props: Props) => (
   <TouchableOpacity style={[styles.buttonContainer, props.style]} onPress={props.onPress}>
     <Image style={[styles.button, props.imageStyle]} source={require('./assets/back-icon.png')} />
   </TouchableOpacity>
-);
+)
 
 NavigationHeaderBackButton.propTypes = {
   onPress: PropTypes.func.isRequired
-};
+}
 
 const styles = StyleSheet.create({
   buttonContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   button: {
     height: 24,
     width: 24,
     margin: Platform.OS === 'ios' ? 10 : 16,
     resizeMode: 'contain',
-    transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }]
   }
-});
+})
 
-module.exports = NavigationHeaderBackButton;
+module.exports = NavigationHeaderBackButton

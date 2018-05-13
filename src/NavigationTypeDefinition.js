@@ -8,45 +8,45 @@
  *
  * @flow
  */
-'use strict';
+'use strict'
 
-const Animated = require('react-native').Animated;
+const Animated = require('react-native-web').Animated
 
-import type React from 'react';
+import type React from 'react'
 
 // Object Instances
 
-export type NavigationAnimatedValue = Animated.Value;
+export type NavigationAnimatedValue = Animated.Value
 
 // Value  & Structs.
 
-export type NavigationGestureDirection = 'horizontal' | 'vertical';
+export type NavigationGestureDirection = 'horizontal' | 'vertical'
 
 export type NavigationRoute = {
   key: string,
   title?: string
-};
+}
 
 export type NavigationState = {
   index: number,
-  routes: Array<NavigationRoute>,
-};
+  routes: Array<NavigationRoute>
+}
 
 export type NavigationLayout = {
   height: NavigationAnimatedValue,
   initHeight: number,
   initWidth: number,
   isMeasured: boolean,
-  width: NavigationAnimatedValue,
-};
+  width: NavigationAnimatedValue
+}
 
 export type NavigationScene = {
   index: number,
   isActive: boolean,
   isStale: boolean,
   key: string,
-  route: NavigationRoute,
-};
+  route: NavigationRoute
+}
 
 export type NavigationTransitionProps = {
   // The layout of the transitioner of the scenes.
@@ -73,12 +73,12 @@ export type NavigationTransitionProps = {
   scene: NavigationScene,
 
   // The gesture distance for `horizontal` and `vertical` transitions
-  gestureResponseDistance?: ?number,
-};
+  gestureResponseDistance?: ?number
+}
 
 // Similar to `NavigationTransitionProps`, except that the prop `scene`
 // represents the scene for the renderer to render.
-export type NavigationSceneRendererProps = NavigationTransitionProps;
+export type NavigationSceneRendererProps = NavigationTransitionProps
 
 export type NavigationPanPanHandlers = {
   onMoveShouldSetResponder: Function,
@@ -92,29 +92,25 @@ export type NavigationPanPanHandlers = {
   onResponderTerminate: Function,
   onResponderTerminationRequest: Function,
   onStartShouldSetResponder: Function,
-  onStartShouldSetResponderCapture: Function,
-};
+  onStartShouldSetResponderCapture: Function
+}
 
 export type NavigationTransitionSpec = {
   duration?: number,
   // An easing function from `Easing`.
   easing?: () => any,
   // A timing function such as `Animated.timing`.
-  timing?: (value: NavigationAnimatedValue, config: any) => any,
-};
+  timing?: (value: NavigationAnimatedValue, config: any) => any
+}
 
 // Functions.
 
 export type NavigationAnimationSetter = (
   position: NavigationAnimatedValue,
   newState: NavigationState,
-  lastState: NavigationState,
-) => void;
+  lastState: NavigationState
+) => void
 
-export type NavigationSceneRenderer = (
-  props: NavigationSceneRendererProps,
-) => ?React.Element<any>;
+export type NavigationSceneRenderer = (props: NavigationSceneRendererProps) => ?React.Element<any>
 
-export type NavigationStyleInterpolator = (
-  props: NavigationSceneRendererProps,
-) => Object;
+export type NavigationStyleInterpolator = (props: NavigationSceneRendererProps) => Object
